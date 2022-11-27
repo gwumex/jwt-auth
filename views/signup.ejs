@@ -18,9 +18,13 @@
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        //reset errors
+        
+        //get values
         const email = form.email.value;
         const password = form.password.value;
-
+        
         try{
             const res = await fetch('/signup', {
                 method: "Post",
@@ -32,6 +36,14 @@
             if(data.errors){
                 emailError.textContent = data.errors.email;
                 passwordError.textContent = data.errors.password;
+                setTimeout(() => {
+                    emailError.textContent = '';
+                    passwordError.textContent = '';
+                }, 2000)
+            }
+            if (data.user) {
+                //redirect to home page
+                location.assign('/')
             }
         }
         catch(err){
